@@ -97,6 +97,19 @@ dd{margin:0;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 .steps{display:flex;gap:3px}
 .steps i{flex:1;height:8px;border:1.5px solid var(--line);border-radius:99px;background:var(--paper-2)}
 .opts{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.tb-item{border:2px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--paper);display:flex;flex-direction:column;gap:6px}
+.tb-item.done{opacity:.6}
+.tb-top{display:flex;gap:8px;align-items:flex-start}
+.tb-top input{width:20px;height:20px;padding:0;margin:1px 0 0;flex:none;accent-color:var(--teal);cursor:pointer}
+.tb-top>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.tb-item.done .nm{text-decoration:line-through}
+.tb-kind{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border:1.5px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--on-sun);background:var(--sun)}
+.tb-kind.k-reply{background:var(--pink);color:#fff}
+.tb-kind.k-script{background:var(--sea);color:var(--on-sun)}
+.tb-kind.k-admin{background:var(--paper-2);color:var(--ink)}
+.tb-text{white-space:pre-wrap}
+.tb-filter{display:flex;gap:6px;flex-wrap:wrap}
+.tb-filter .btn[aria-pressed="true"]{background:var(--sun);color:var(--on-sun)}
 #replay{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(128px + env(safe-area-inset-bottom,0px));width:min(470px,calc(100% - 32px));padding:8px 12px;display:flex;gap:10px;align-items:center;z-index:4}
 #replay input{flex:1;padding:0;border:0;min-width:0;background:none}
 #replay b{min-width:60px;text-align:center;font-variant-numeric:tabular-nums}
@@ -214,6 +227,7 @@ input,select{border:2px solid var(--line);border-radius:8px;background:var(--pap
     <button class="btn" id="btn-isle" type="button" hidden>Autopilot Island</button>
     <button class="btn" id="btn-fut" type="button" hidden>Launchpad Island</button>
     <button class="btn" id="btn-lab" type="button" hidden>Idea Lab</button>
+    <button class="btn" id="btn-trybe" type="button">Trybe</button>
     <button class="btn" id="btn-walk" type="button">Walk</button>
     <button class="btn" id="btn-night" type="button">Night</button>
     <button class="btn" id="btn-hide" type="button">Hide money</button>
@@ -470,10 +484,16 @@ function plural(n,w,ws){return n.toLocaleString()+' '+(n===1?w:(ws||w+'s'));}
 const LS='payday-city-v1',LSR='payday-city-routines-v1';
 // on city.traceugc.com the city lives in Supabase behind a sign-in; nothing is read from or kept in this browser's storage
 const SITE=!window.claude&&/(^|\.)city\.traceugc\.com$/i.test(location.hostname)||/[?&]site=1(&|$)/.test(location.search);
-const blank=()=>({v:1,baseCost:40,jobs:[],payments:[],perks:{},venues:{},mem:{},debts:[],costs:[],goal:10000,profitMode:false,future:[],updatedAt:0});
+const blank=()=>({v:1,baseCost:40,jobs:[],payments:[],perks:{},venues:{},mem:{},debts:[],costs:[],goal:10000,profitMode:false,future:[],trybe:normTrybe(),updatedAt:0});
 // Launchpad Island starts with the businesses the owner named; once they edit it, their own list is kept (even an empty one)
 const STAGES=['Idea','Planning','Building','Testing','Launched'];
 const FUT_START=[['ListenIn',2,'Song-of-the-day social music app for iPhone'],['Pickleball Pal',2,''],['Closet app',2,''],['Kids app',2,''],['GoldenTeesCo',0,'']];
+// Trybe + Launch Point to-do list: plain actions (reply, script, film), checked off here and saved with the city
+const TRYBE_START={"asof":{"trybe":"","launchpoint":""},"items":[]};
+function normTrybe(s){const src=s&&typeof s==='object'&&Array.isArray(s.items)?s:TRYBE_START,str=(v,n)=>String(v==null?'':v).slice(0,n),a=src.asof||{};
+  return{asof:{trybe:str(a.trybe,10),launchpoint:str(a.launchpoint,10)},
+    items:src.items.filter(x=>x&&x.title).slice(0,60).map((x,i)=>({id:str(x.id||'t'+i,40),src:x.src==='launchpoint'?'launchpoint':'trybe',kind:['reply','script','film','admin'].includes(x.kind)?x.kind:'admin',
+      title:str(x.title,90),who:str(x.who,60),pay:str(x.pay,40),detail:str(x.detail,300),text:str(x.text,2500),done:!!x.done}))};}
 function normalize(s){const o=blank();if(!s||typeof s!=='object')return o;
   o.baseCost=[10,40,150].includes(s.baseCost)?s.baseCost:40;o.updatedAt=+s.updatedAt||0;o.goal=+s.goal>0?+s.goal:10000;o.profitMode=!!s.profitMode;
   if(Array.isArray(s.jobs))o.jobs=s.jobs.filter(j=>j&&j.id&&j.name).map(j=>({id:String(j.id),name:String(j.name).slice(0,28),color:(+j.color||0)%PALETTE.length,slot:clamp(+j.slot||0,0,SLOTS.length-1),createdAt:+j.createdAt||0}));
@@ -488,6 +508,7 @@ function normalize(s){const o=blank();if(!s||typeof s!=='object')return o;
   o.future=(Array.isArray(s.future)?s.future:FUT_START.map(([name,stage,what],i)=>({id:'fut-'+i,name,stage,what}))).filter(b=>b&&b.name).slice(0,8)
     .map(b=>({id:String(b.id||uid()),name:String(b.name).slice(0,28),stage:clamp(Math.round(+b.stage)||0,0,4),what:String(b.what||'').slice(0,120),next:String(b.next||'').slice(0,120),since:String(b.since||today()).slice(0,10)}));
   if(s.mem&&typeof s.mem==='object')for(const k of Object.keys(s.mem).slice(-40)){const a=s.mem[k];if(Array.isArray(a))o.mem[k.slice(0,90)]=a.slice(-8).filter(m=>m&&(m.role==='user'||m.role==='assistant')&&m.content).map(m=>({role:m.role,content:String(m.content).slice(0,400)}));}
+  o.trybe=normTrybe(s.trybe);
   return o;}
 // the Idea Lab: the daily online-business research report, posted on its own building in the City Hall block
 const LSI='payday-city-ideas-v1',LAB={x:10.8,y:10.8,h:30};
@@ -562,12 +583,17 @@ async function siteStart(sb){
   if(row('routines'))routines=normRoutines(row('routines'));syncBots();
   if(row('ideas'))setIdeas(row('ideas'));
   if(row('reports'))setReports(row('reports'));
-  const c=row('city');
-  if(c){state=normalize(c);rebuild(false);fitCamera(false);}
-  $('gate').hidden=true;renderUI();setChip();
   // for the morning sync, which runs in this signed-in tab
   window.paydayCity={get:async id=>{const r=await sb.from('payday_city').select('data').eq('id',id).maybeSingle();if(r.error)throw r.error;return r.data?r.data.data:null;},
     put:async(id,d)=>{const r=await sb.from('payday_city').upsert({id,data:d,updated_at:new Date().toISOString()});if(r.error)throw r.error;return true;}};
+  const c=row('city');
+  if(!c){   // signed in but nothing stored yet: never show the sample city in its place
+    $('gate-form').innerHTML='<h2>Payday <span>City</span></h2><p class="hint">You are signed in, but your city has not been copied here yet. Once it has, reload this page and it will be here.</p><div class="end"><button class="btn" type="button" id="gate-out">Sign out</button></div>';
+    $('gate-out').addEventListener('click',siteSignOut);$('gate').hidden=false;
+    const wait=setInterval(async()=>{try{const v=await window.paydayCity.get('city');if(v){clearInterval(wait);location.reload();}}catch(e){}},10000);
+    return;}
+  state=normalize(c);rebuild(false);fitCamera(false);
+  $('gate').hidden=true;renderUI();setChip();
   setInterval(async()=>{if(saving||dirty||replay)return;
     try{const r=await sb.from('payday_city').select('id,data').in('id',['city','ideas','reports','routines']);if(r.error)return;
       for(const x of r.data){if(x.id==='city'){const v=normalize(x.data);if(v.updatedAt>state.updatedAt&&!saving&&!dirty){state=v;rebuild(true);renderUI();}}
@@ -1717,6 +1743,36 @@ $('rep-talk').addEventListener('click',()=>{const r=repFor;$('dlg-report').close
 
 /* ---------- panel ---------- */
 let view='list',armed=null,armTimer=0;
+/* ---------- Trybe + Launch Point dashboard ---------- */
+let tbFilter='all';
+const TB_WORD={reply:'Reply to brand',script:'Needs a script',film:'Film it',admin:'Quick task'},TB_ORDER={reply:0,script:1,film:2,admin:3};
+function copyText(t,msg){const ok=()=>toast(msg),fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')?ok():toast('Could not copy. Select the text and copy it by hand.');}catch(e){toast('Could not copy. Select the text and copy it by hand.');}a.remove();};
+  try{navigator.clipboard.writeText(t).then(ok,fb);}catch(e){fb();}}
+function tbAsk(x){const where=x.src==='launchpoint'?'Launch Point':'Trybe';
+  return x.kind==='reply'?'Write me a short reply to '+x.who+' on '+where+': '+x.title+'. '+x.detail+' Keep it friendly and plain, no em dashes.'
+    :'Write me a '+where+' video script for '+x.who+': '+x.title+'. '+x.detail+' Paragraph format, no em dashes, call to action at the end, plus a short shot plan.';}
+function tbItem(x,asof){const id=esc(x.id),a=asof[x.src];
+  return'<div class="tb-item'+(x.done?' done':'')+'"><div class="tb-top"><input type="checkbox" data-act="tbdone" data-id="'+id+'" aria-label="Mark done"'+(x.done?' checked':'')+'><div><span class="tb-kind k-'+x.kind+'">'+TB_WORD[x.kind]+'</span><b class="nm">'+esc(x.title)+'</b></div>'+(x.pay?'<span class="amt">'+esc(nt(x.pay))+'</span>':'')+'</div>'
+    +(x.detail?'<p class="lab-p">'+esc(nt(x.detail))+'</p>':'')
+    +'<span class="tag">'+(x.src==='launchpoint'?'Launch Point':'Trybe')+(x.who?' · '+esc(x.who):'')+(a?' · from '+esc(niceDate(a)):'')+'</span>'
+    +(x.text?'<details class="lab-d"><summary><span class="nm">Read the '+(x.kind==='reply'?'reply':'script')+'</span></summary><p class="lab-p tb-text">'+esc(nt(x.text))+'</p></details>':'')
+    +(x.done?'':'<div class="acts">'+(x.text?'<button class="btn small primary" data-act="tbcopy" data-id="'+id+'" type="button">Copy '+(x.kind==='reply'?'reply':'script')+'</button>':'')+'<button class="btn small" data-act="tbask" data-id="'+id+'" type="button">'+(x.text?'Ask Claude to redo it':'Ask Claude to write it')+'</button></div>')+'</div>';}
+function trybeHTML(){const t=state.trybe,all=t.items,sh=all.filter(x=>tbFilter==='all'||x.src===tbFilter),open=sh.filter(x=>!x.done).sort((a,b)=>TB_ORDER[a.kind]-TB_ORDER[b.kind]),done=sh.filter(x=>x.done);
+  const cnt=k=>open.filter(x=>x.kind===k).length;
+  let h='<button class="btn small lab-back" data-act="back" type="button">← Districts</button><h2 class="lab-h">Trybe + Launch Point</h2><p class="hint">What to do next, in plain words. Check things off as you go. Anything marked "Ask Claude" is a message you can paste to me and I will write it.</p>';
+  const d=world.districts.find(x=>x.job.id==='job-traceugc');
+  if(d&&!world.demo){const c=new Date();c.setDate(c.getDate()-30);const cs=c.toISOString().slice(0,10),by={};let n30=0;
+    for(const p of d.pays){if(p.date<cs)continue;const k=String(p.note||'other').replace(/\s*-\s*ad spend\s*$/i,'').trim().toLowerCase()||'other';by[k]=(by[k]||0)+p.amount;n30+=p.amount;}
+    const top=Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    h+='<div class="race"><span class="tag">TRACEUGC district · money from these</span><div class="rl"><span><strong>Last 30 days</strong></span><b>'+money(n30)+'</b></div><div class="rl"><span>This month so far</span><b>'+money(d.month)+'</b></div><div class="rl"><span>All time</span><b>'+money(d.total)+'</b></div>'
+      +top.map(q=>'<div class="rl"><span>'+esc(q[0])+'</span><b>'+money(q[1])+'</b></div>').join('')+'<div class="acts"><button class="btn small" data-act="open" data-id="job-traceugc" type="button">Visit the district</button></div></div>';}
+  h+='<div class="tb-filter">'+[['all','Everything'],['trybe','Trybe'],['launchpoint','Launch Point']].map(f=>'<button class="btn small" data-act="tbfilter" data-id="'+f[0]+'" aria-pressed="'+(tbFilter===f[0])+'" type="button">'+f[1]+'</button>').join('')+'</div>';
+  h+='<p class="hint"><strong>'+open.length+' to do:</strong> '+cnt('reply')+' brand replies, '+cnt('script')+' scripts to write, '+cnt('film')+' videos to film, '+cnt('admin')+' quick tasks.</p>';
+  if(!open.length)h+='<p class="hint">Nothing left here. Tell Claude to refresh Trybe and Launch Point for a new list.</p>';
+  h+=open.map(x=>tbItem(x,t.asof)).join('');
+  if(done.length)h+='<details class="lab-d"><summary><span class="nm">Done</span><span class="amt">'+done.length+'</span></summary><div style="display:flex;flex-direction:column;gap:8px">'+done.map(x=>tbItem(x,t.asof)).join('')+'</div></details>';
+  return h+'<p class="hint">Launch Point list is from '+esc(niceDate(t.asof.launchpoint))+'. The Trybe list is from '+esc(niceDate(t.asof.trybe))+', so check it against Trybe Chat before you send anything. Nothing here is sent for you.</p>';}
+function openTrybe(){closeChat();selected=null;$('info').hidden=true;view='trybe';$('app').classList.remove('closed');renderUI();$('pbody').scrollTop=0;}
 const ranked=()=>[...world.districts].sort((a,b)=>b.total-a.total);
 function builtText(st){if(!st)return'';const parts=[];if(st.n)parts.push(plural(st.n,'new building'));if(st.u)parts.push(plural(st.u,'upgrade'));if(st.p)parts.push(plural(st.p,'park'));
   return parts.length?'Board built '+parts.join(', '):'Banked toward the next project';}
@@ -1726,6 +1782,7 @@ function renderUI(){
   $('tab-list').setAttribute('aria-selected',view!=='minutes'&&view!=='bots'&&view!=='debt'&&view!=='future');$('tab-debt').setAttribute('aria-selected',view==='debt');$('tab-min').setAttribute('aria-selected',view==='minutes');$('tab-bot').setAttribute('aria-selected',view==='bots');
   const body=$('pbody');let h='';
   if(view==='ideas'){h=ideasHTML();$('tab-list').setAttribute('aria-selected','false');}
+  else if(view==='trybe'){h=trybeHTML();$('tab-list').setAttribute('aria-selected','false');}
   else if(view==='future'){const fs=state.future;
     h+='<p class="hint">Businesses you are building that do not pay you yet. Each one is a building on Launchpad Island that goes up as you move it from idea to launch, and the rocket in the middle fills as they all move forward. None of this counts toward the treasury.</p>';
     if(!fs.length)h+='<p class="hint">Nothing here yet. Add a business you want to start.</p>';
@@ -1857,6 +1914,9 @@ $('pbody').addEventListener('click',e=>{const b=e.target.closest('[data-act]');i
   else if(act==='report'){const r=routines.items.find(x=>x.id===id);if(r)openReport(r);}
   else if(act==='back'){view='list';renderUI();}
   else if(act==='lab')flyLab();
+  else if(act==='tbdone'){const x=state.trybe.items.find(q=>q.id===id);if(x){x.done=!x.done;saveQuiet();renderUI();}}
+  else if(act==='tbfilter'){tbFilter=id;renderUI();}
+  else if(act==='tbcopy'||act==='tbask'){const x=state.trybe.items.find(q=>q.id===id);if(x)copyText(act==='tbcopy'?x.text:tbAsk(x),act==='tbcopy'?'Copied. Paste it where you need it.':'Request copied. Paste it to Claude and it will write it for you.');}
   else if(act==='vote'){const d=world.districts.find(x=>x.job.id===id);if(d)openVote(d);}
   else if(act==='addjob')openJob();
   else if(act==='signout')siteSignOut();
@@ -2008,6 +2068,7 @@ $('btn-fit').addEventListener('click',()=>{if(me.on)setWalk(false);goIsle(false)
 $('btn-walk').addEventListener('click',()=>setWalk(!me.on));
 $('btn-isle').addEventListener('click',()=>goIsle(!onIsle()));
 $('btn-lab').addEventListener('click',openIdeas);
+$('btn-trybe').addEventListener('click',openTrybe);
 $('btn-fut').addEventListener('click',()=>goFut(!onFut()));
 // district name signs: 0 = hidden, 1 = small name tags, 2 = full signs with totals
 const NAME_LABEL=['Names: off','Names: small','Names: full'];let nameMode=1;
