@@ -152,6 +152,67 @@ input,select{border:2px solid var(--line);border-radius:8px;background:var(--pap
 .end{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
 .err{color:var(--danger);font-size:12.5px;margin:0;font-weight:600}
 
+
+/* Shoot Day: a full-screen filming mode that lives inside the city and saves with it */
+.rec-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#e0322b;margin-right:6px;vertical-align:1px}
+#shoot{position:absolute;inset:0;z-index:8;background:var(--paper-2);display:flex;flex-direction:column;overflow:hidden}
+#shoot .sd-top{background:var(--paper);border-bottom:2px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 0}
+#shoot .sd-col{max-width:680px;margin:0 auto;width:100%}
+.sd-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sd-title h2{font-family:var(--display);font-weight:400;font-size:20px;margin:0;flex:1;min-width:0}
+.sd-day{font-size:12.5px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.sd-tabs{display:flex;gap:4px;margin-top:8px}
+.sd-tab{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:9px 4px;font-weight:700;font-size:15px;color:var(--muted);cursor:pointer}
+.sd-tab[aria-selected="true"]{color:var(--ink);border-bottom-color:#e0322b}
+.sd-tab small{font-weight:500;font-size:12.5px;font-variant-numeric:tabular-nums}
+#sd-body{flex:1;overflow-y:auto;padding:16px 16px 130px;-webkit-overflow-scrolling:touch}
+#sd-body .sd-col{display:flex;flex-direction:column;gap:14px}
+.sd-goal{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
+.sd-goal b{color:var(--ink)}
+.sd-bar{height:12px;border:2px solid var(--line);border-radius:99px;overflow:hidden;background:var(--paper)}
+.sd-bar i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.sd-city{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px}
+.sd-city p{margin:0;flex:1 1 220px;font-size:13.5px;line-height:1.4}
+.sd-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sd-row{width:100%;display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;text-align:left;background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;box-shadow:3px 3px 0 var(--line)}
+.sd-row .n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--paper-2);border:2px solid var(--line)}
+.sd-row .nm{font-size:16px;line-height:1.25}
+.sd-row .sub{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.sd-row .amt{font-size:15px}
+.sd-row.sel{background:#fff1f0;border-color:#e0322b}
+.sd-row.sel .n{background:#e0322b;color:#fff}
+.sd-row.done{background:color-mix(in srgb,var(--teal) 16%,var(--paper));box-shadow:none}
+.sd-row.done .n{background:var(--teal);color:#fff}
+.sd-row.done .nm{text-decoration:line-through;text-decoration-thickness:2px}
+.sd-card{padding:18px 16px;display:flex;flex-direction:column;gap:16px}
+.sd-rec{font-size:12px;font-weight:700;letter-spacing:.08em;color:#e0322b;display:flex;align-items:center;gap:8px}
+.sd-card h3{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.15;margin:0}
+.sd-chips{display:flex;gap:6px;flex-wrap:wrap}
+.sd-chip{font-size:12.5px;font-weight:600;border:1.5px solid var(--line);background:var(--paper-2);padding:2px 10px;border-radius:99px}
+.sd-why{margin:0;color:var(--muted);font-size:14.5px;line-height:1.45}
+.sd-lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0 0 6px}
+.sd-script{font-size:20px;line-height:1.6;margin:0}
+.sd-shots{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+.sd-paid{border:2px dashed var(--muted);border-radius:9px;padding:10px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sd-paid p{margin:0;flex:1 1 200px;font-size:13.5px;line-height:1.4}
+.sd-reply{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sd-reply h3{margin:0;font-size:17px}
+.sd-reply p{margin:0;white-space:pre-line;line-height:1.5;font-size:15px}
+.sd-reply.sent{opacity:.55}
+.sd-note{padding:14px 16px}
+.sd-note h3{margin:0 0 8px;font-size:17px}
+.sd-note p,.sd-note ul{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+.sd-note ul{padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.sd-act{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.sd-act .sd-col{display:grid;grid-template-columns:auto 1fr auto;gap:10px}
+.sd-go{font-size:16px!important}
+.sd-go.undo{background:var(--paper)!important;color:var(--teal)!important}
+.btn:disabled{opacity:.35;cursor:default;transform:none}
+#prompter{position:fixed;inset:0;z-index:30;background:#000;color:#fff;overflow-y:auto;padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(90px + env(safe-area-inset-bottom,0px))}
+#prompter p{max-width:900px;margin:0 auto;font-size:clamp(30px,6.5vw,52px);line-height:1.4;font-weight:600;font-family:var(--body)}
+#prompter .btn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));font-size:17px}
+.sd-empty{text-align:center;padding:22px 10px}
+.sd-empty h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0 0 6px}
 @media (max-width:760px){
   #panel{left:16px;right:16px;top:auto;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));max-height:48%}
   #dock{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:0 4px 6px}
@@ -223,6 +284,7 @@ input,select{border:2px solid var(--line);border-radius:8px;background:var(--pap
   <nav id="dock">
     <button class="btn" id="btn-panel" type="button">Districts</button>
     <button class="btn primary" id="btn-pay" type="button">Log a payment</button>
+    <button class="btn" id="btn-shoot" type="button"><span class="rec-dot" aria-hidden="true"></span>Shoot Day</button>
     <button class="btn" id="btn-debt" type="button" hidden>Debt Hollow</button>
     <button class="btn" id="btn-isle" type="button" hidden>Autopilot Island</button>
     <button class="btn" id="btn-fut" type="button" hidden>Launchpad Island</button>
@@ -246,6 +308,23 @@ input,select{border:2px solid var(--line);border-radius:8px;background:var(--pap
     <button class="btn small" type="button" id="rp-done">Done</button>
   </div>
 
+
+  <section id="shoot" hidden aria-label="Shoot Day">
+    <header class="sd-top"><div class="sd-col">
+      <div class="sd-title"><h2>Shoot Day</h2><span class="sd-day" id="sd-day"></span><button class="btn small" id="sd-close" type="button">Back to the city</button></div>
+      <div class="sd-tabs" role="tablist">
+        <button class="sd-tab" role="tab" data-sd="film" type="button">Film <small id="sd-fc"></small></button>
+        <button class="sd-tab" role="tab" data-sd="replies" type="button">Replies <small id="sd-rc"></small></button>
+        <button class="sd-tab" role="tab" data-sd="rules" type="button">Rules</button>
+      </div></div></header>
+    <div id="sd-body"><div class="sd-col" id="sd-inner"></div></div>
+    <nav class="sd-act" id="sd-act"><div class="sd-col">
+      <button class="btn" id="sd-prev" type="button" aria-label="Previous video">← Back</button>
+      <button class="btn primary sd-go" id="sd-done" type="button">Filmed it ✓</button>
+      <button class="btn" id="sd-next" type="button" aria-label="Next video">Next →</button>
+    </div></nav>
+  </section>
+  <div id="prompter" hidden role="dialog" aria-label="Big text script"><p id="prompter-text"></p><button class="btn primary" id="prompter-x" type="button">Close</button></div>
   <div id="toasts" aria-live="polite"></div>
 
   <dialog id="dlg-pay">
@@ -484,7 +563,7 @@ function plural(n,w,ws){return n.toLocaleString()+' '+(n===1?w:(ws||w+'s'));}
 const LS='payday-city-v1',LSR='payday-city-routines-v1';
 // on city.traceugc.com the city lives in Supabase behind a sign-in; nothing is read from or kept in this browser's storage
 const SITE=!window.claude&&/(^|\.)city\.traceugc\.com$/i.test(location.hostname)||/[?&]site=1(&|$)/.test(location.search);
-const blank=()=>({v:1,baseCost:40,jobs:[],payments:[],perks:{},venues:{},mem:{},debts:[],costs:[],goal:10000,profitMode:false,future:[],trybe:normTrybe(),updatedAt:0});
+const blank=()=>({v:1,baseCost:40,jobs:[],payments:[],perks:{},venues:{},mem:{},debts:[],costs:[],goal:10000,profitMode:false,future:[],trybe:normTrybe(),shoot:normShoot(),updatedAt:0});
 // Launchpad Island starts with the businesses the owner named; once they edit it, their own list is kept (even an empty one)
 const STAGES=['Idea','Planning','Building','Testing','Launched'];
 const FUT_START=[['ListenIn',2,'Song-of-the-day social music app for iPhone'],['Pickleball Pal',2,''],['Closet app',2,''],['Kids app',2,''],['GoldenTeesCo',0,'']];
@@ -494,6 +573,14 @@ function normTrybe(s){const src=s&&typeof s==='object'&&Array.isArray(s.items)?s
   return{asof:{trybe:str(a.trybe,10),launchpoint:str(a.launchpoint,10)},
     items:src.items.filter(x=>x&&x.title).slice(0,60).map((x,i)=>({id:str(x.id||'t'+i,40),src:x.src==='launchpoint'?'launchpoint':'trybe',kind:['reply','script','film','admin'].includes(x.kind)?x.kind:'admin',
       title:str(x.title,90),who:str(x.who,60),pay:str(x.pay,40),detail:str(x.detail,300),text:str(x.text,2500),done:!!x.done}))};}
+// Shoot Day: today's filming list, brand replies and rules, saved with the city so every device (and Claude) sees the same progress
+const SHOOT_START={"date":"","goal":2,"great":5,"videos":[],"replies":[],"rules":[],"ignore":""};
+function normShoot(s){const src=s&&typeof s==='object'&&Array.isArray(s.videos)?s:SHOOT_START,str=(v,n)=>String(v==null?'':v).slice(0,n);
+  return{date:str(src.date,10),goal:clamp(Math.round(+src.goal)||2,1,20),great:clamp(Math.round(+src.great)||5,1,20),
+    videos:src.videos.filter(v=>v&&v.brand).slice(0,12).map((v,i)=>({id:str(v.id||'sd'+i,40),brand:str(v.brand,40),tag:str(v.tag,60),profit:Math.max(0,+v.profit||0),secs:Math.max(0,Math.round(+v.secs||0)),
+      setup:str(v.setup,30),why:str(v.why,200),script:str(v.script,2500),shots:str(v.shots,400),done:!!v.done,paidId:str(v.paidId,40)})),
+    replies:(Array.isArray(src.replies)?src.replies:[]).filter(r=>r&&r.text).slice(0,12).map((r,i)=>({id:str(r.id||'sr'+i,40),brand:str(r.brand,40),text:str(r.text,2500),sent:!!r.sent})),
+    rules:(Array.isArray(src.rules)?src.rules:[]).map(r=>str(r,200)).filter(Boolean).slice(0,8),ignore:str(src.ignore,600)};}
 function normalize(s){const o=blank();if(!s||typeof s!=='object')return o;
   o.baseCost=[10,40,150].includes(s.baseCost)?s.baseCost:40;o.updatedAt=+s.updatedAt||0;o.goal=+s.goal>0?+s.goal:10000;o.profitMode=!!s.profitMode;
   if(Array.isArray(s.jobs))o.jobs=s.jobs.filter(j=>j&&j.id&&j.name).map(j=>({id:String(j.id),name:String(j.name).slice(0,28),color:(+j.color||0)%PALETTE.length,slot:clamp(+j.slot||0,0,SLOTS.length-1),createdAt:+j.createdAt||0}));
@@ -508,7 +595,7 @@ function normalize(s){const o=blank();if(!s||typeof s!=='object')return o;
   o.future=(Array.isArray(s.future)?s.future:FUT_START.map(([name,stage,what],i)=>({id:'fut-'+i,name,stage,what}))).filter(b=>b&&b.name).slice(0,8)
     .map(b=>({id:String(b.id||uid()),name:String(b.name).slice(0,28),stage:clamp(Math.round(+b.stage)||0,0,4),what:String(b.what||'').slice(0,120),next:String(b.next||'').slice(0,120),since:String(b.since||today()).slice(0,10)}));
   if(s.mem&&typeof s.mem==='object')for(const k of Object.keys(s.mem).slice(-40)){const a=s.mem[k];if(Array.isArray(a))o.mem[k.slice(0,90)]=a.slice(-8).filter(m=>m&&(m.role==='user'||m.role==='assistant')&&m.content).map(m=>({role:m.role,content:String(m.content).slice(0,400)}));}
-  o.trybe=normTrybe(s.trybe);
+  o.trybe=normTrybe(s.trybe);o.shoot=normShoot(s.shoot);
   return o;}
 // the Idea Lab: the daily online-business research report, posted on its own building in the City Hall block
 const LSI='payday-city-ideas-v1',LAB={x:10.8,y:10.8,h:30};
@@ -549,6 +636,7 @@ async function flush(){if(!cloudRef||saving)return;saving=true;
   saving=false;setChip();}
 function saveQuiet(){state.updatedAt=Date.now();if(!SITE)try{localStorage.setItem(LS,JSON.stringify(state));}catch(e){}dirty=true;flush();}
 function commit(animate){if(replay)stopReplay(true);saveQuiet();rebuild(animate);renderUI();}
+const _rui=()=>{const s=$('shoot');if(s&&!s.hidden&&typeof renderShoot==='function')renderShoot();};
 // when the page is served by the little home server on the owner's Mac, the city is kept in a file there and shared by every device on the wifi
 async function initLan(){
   try{const r=await fetch('api/state',{cache:'no-store'});if(!r.ok)return;const remote=normalize(await r.json());
@@ -1582,7 +1670,7 @@ function draw(){
   if(ideas.items.length){const lp=iso(LAB.x,LAB.y);sign(lp[0],lp[1],LAB.h+76,'IDEA LAB',plural(ideas.items.length,'business idea')+' · '+(ideas.date===today()?'today':niceDate(ideas.date))+' · tap to read','#12b5a6',{ideas:true});}
   const hp=iso(3.5,3.5);sign(hp[0],hp[1],108,'CITY BOARD','Treasury '+money(world.total)+(world.goalBest>0?' · goal '+Math.round(world.goalBest/state.goal*100)+'%':'')+' · talk to the mayor','#ffc93c',{mayor:true});
   for(const d of world.districts){const p=iso(d.ox+6.5,d.oy+6.5);
-    sign(p[0],p[1],d.tall?HEIGHTS[d.tall]+10:20,(d.best>=state.goal?'♛ ':'')+(world.champ===d.job.id?'★ ':'')+d.job.name.toUpperCase(),d.total?money(d.total)+(d.asset?' value':'')+' · '+plural(d.pop,'resident')+' · '+d.mood:'Empty land · waiting on first payment',d.pal.c,{d});}
+    sign(p[0],p[1],d.tall?HEIGHTS[d.tall]+10:20,(d.best>=state.goal?'♛ ':'')+(world.champ===d.job.id?'★ ':'')+d.job.name.toUpperCase(),(d.total?money(d.total)+(d.asset?' value':'')+' · '+plural(d.pop,'resident')+' · '+d.mood:'Empty land · waiting on first payment')+(d.job.id===SHOOT_JOB&&!world.demo&&state.shoot.videos.length?' · shoot '+sdCount()+'/'+state.shoot.videos.length:''),d.pal.c,{d});}
   for(const d of world.debts){const p=iso(d.ox+6.5,d.oy+6.5),pc=d.p*100;
     sign(p[0],p[1],150,(d.p>=1?'★ ':'')+d.job.name.toUpperCase(),d.p>=1?'Paid off':money(d.debt.balance)+' left · '+pc.toFixed(pc>0&&pc<10?2:1)+'% paid off',d.pal.c,{debt:d});}
   if(world.debts.length&&z<.5){const p=iso(DEBT.ox+6.5,DEBT.oy+6.5);sign(p[0],p[1],260,'DEBT HOLLOW',money(world.debts.reduce((t,d)=>t+d.debt.balance,0))+' still owed','#8a90a8',{debt:world.debts[0]});}
@@ -1614,7 +1702,7 @@ const up=e=>{if(!ptrs.has(e.pointerId))return;const single=ptrs.size===1;ptrs.de
   if(single&&moved<6&&e.type==='pointerup')click(e.offsetX,e.offsetY);};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 cv.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.offsetX,e.offsetY,Math.exp(-e.deltaY*(e.ctrlKey?.01:.0015)));},{passive:false});
-window.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||document.querySelector('dialog[open]'))return;
+window.addEventListener('keydown',e=>{if(!$('prompter').hidden&&e.key==='Escape'){$('prompter').hidden=true;return;}if(!$('shoot').hidden){if(e.key==='Escape'&&!document.querySelector('dialog[open]'))closeShoot();return;}if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||document.querySelector('dialog[open]'))return;
   if(e.key==='+'||e.key==='=')zoomAt(W/2,H/2,1.2);else if(e.key==='-')zoomAt(W/2,H/2,1/1.2);else keys.add(e.key.length===1?e.key.toLowerCase():e.key);});
 window.addEventListener('keyup',e=>keys.delete(e.key.length===1?e.key.toLowerCase():e.key));
 window.addEventListener('blur',()=>keys.clear());
@@ -1663,6 +1751,7 @@ function cityFacts(){
   let s='Districts ranked by money earned (today is '+today()+'):\n';
   r.forEach((d,i)=>{const lp=d.pays[d.pays.length-1];
     s+='#'+(i+1)+' '+d.job.name+': '+money(d.total)+' all-time over '+d.pays.length+' payments, '+money(d.recent)+' in the last 30 days, '+d.pop+' residents, '+d.bld+' buildings, tallest: '+(d.tall?KIND[d.tall]:'nothing yet')+', mood: '+d.mood+', last payment: '+(lp?money(lp.amount)+' on '+lp.date+(lp.note?' ('+nt(lp.note)+')':''):'never')+(d.nextCost?', next project costs '+money(d.nextCost)+' with '+money(d.left)+' banked':'')+(d.costs>0?', costs (payroll and expenses) '+money(d.costs)+' so profit '+money(d.total-d.costs):'')+(d.best>0?', best month '+money(d.best)+' in '+d.bestYm:'')+'.\n';});
+  if(state.shoot.videos.length)s+=shootFacts()+'\n';
   if(state.future.length)s+='Launchpad Island, a separate island for future businesses that do not earn anything yet: '+futFacts()+'\n';
   if(world.debts.length)s+='Debt Hollow, a separate island for what the owner owes (not income): '+world.debts.map(d=>d.debt.name+' '+money(d.debt.balance)+' left of '+money(d.debt.start)+', '+(Math.round(d.p*1000)/10)+'% paid off').join('; ')+'.\n';
   const as=r.filter(d=>d.asset>0).map(d=>d.job.name);
@@ -1766,6 +1855,7 @@ function trybeHTML(){const t=state.trybe,all=t.items,sh=all.filter(x=>tbFilter==
     const top=Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,5);
     h+='<div class="race"><span class="tag">TRACEUGC district · money from these</span><div class="rl"><span><strong>Last 30 days</strong></span><b>'+money(n30)+'</b></div><div class="rl"><span>This month so far</span><b>'+money(d.month)+'</b></div><div class="rl"><span>All time</span><b>'+money(d.total)+'</b></div>'
       +top.map(q=>'<div class="rl"><span>'+esc(q[0])+'</span><b>'+money(q[1])+'</b></div>').join('')+'<div class="acts"><button class="btn small" data-act="open" data-id="job-traceugc" type="button">Visit the district</button></div></div>';}
+  h+=shootCard();
   h+='<div class="tb-filter">'+[['all','Everything'],['trybe','Trybe'],['launchpoint','Launch Point']].map(f=>'<button class="btn small" data-act="tbfilter" data-id="'+f[0]+'" aria-pressed="'+(tbFilter===f[0])+'" type="button">'+f[1]+'</button>').join('')+'</div>';
   h+='<p class="hint"><strong>'+open.length+' to do:</strong> '+cnt('reply')+' brand replies, '+cnt('script')+' scripts to write, '+cnt('film')+' videos to film, '+cnt('admin')+' quick tasks.</p>';
   if(!open.length)h+='<p class="hint">Nothing left here. Tell Claude to refresh Trybe and Launch Point for a new list.</p>';
@@ -1776,7 +1866,7 @@ function openTrybe(){closeChat();selected=null;$('info').hidden=true;view='trybe
 const ranked=()=>[...world.districts].sort((a,b)=>b.total-a.total);
 function builtText(st){if(!st)return'';const parts=[];if(st.n)parts.push(plural(st.n,'new building'));if(st.u)parts.push(plural(st.u,'upgrade'));if(st.p)parts.push(plural(st.p,'park'));
   return parts.length?'Board built '+parts.join(', '):'Banked toward the next project';}
-function renderUI(){
+function renderUI(){_rui();
   $('st-earned').textContent=money(world.total);$('st-pop').textContent=world.pop.toLocaleString();$('st-avg').textContent=money(Math.round(world.avg||0));$('st-bld').textContent=world.bld.toLocaleString();
   $('demo').hidden=!world.demo;setChip();$('btn-isle').hidden=!routines.items.length;$('btn-fut').hidden=!state.future.length;$('tab-fut').setAttribute('aria-selected',view==='future');
   $('tab-list').setAttribute('aria-selected',view!=='minutes'&&view!=='bots'&&view!=='debt'&&view!=='future');$('tab-debt').setAttribute('aria-selected',view==='debt');$('tab-min').setAttribute('aria-selected',view==='minutes');$('tab-bot').setAttribute('aria-selected',view==='bots');
@@ -1916,6 +2006,7 @@ $('pbody').addEventListener('click',e=>{const b=e.target.closest('[data-act]');i
   else if(act==='lab')flyLab();
   else if(act==='tbdone'){const x=state.trybe.items.find(q=>q.id===id);if(x){x.done=!x.done;saveQuiet();renderUI();}}
   else if(act==='tbfilter'){tbFilter=id;renderUI();}
+  else if(act==='shoot')openShoot();
   else if(act==='tbcopy'||act==='tbask'){const x=state.trybe.items.find(q=>q.id===id);if(x)copyText(act==='tbcopy'?x.text:tbAsk(x),act==='tbcopy'?'Copied. Paste it where you need it.':'Request copied. Paste it to Claude and it will write it for you.');}
   else if(act==='vote'){const d=world.districts.find(x=>x.job.id===id);if(d)openVote(d);}
   else if(act==='addjob')openJob();
@@ -1978,7 +2069,7 @@ $('form-pay').addEventListener('submit',e=>{e.preventDefault();const amt=Math.ro
   if(!(amt>0)){err.textContent='Enter an amount above zero.';err.hidden=false;return;}
   const jobId=$('pay-job').value,p={id:uid(),jobId,amount:amt,date:$('pay-date').value||today(),note:$('pay-note').value.trim(),createdAt:Date.now()};
   const d0=world.districts.find(x=>x.job.id===jobId),wasBest=d0?d0.best:0;
-  state.payments.push(p);$('dlg-pay').close();commit(true);
+  state.payments.push(p);if(payShoot){const v=state.shoot.videos.find(x=>x.id===payShoot);if(v&&jobId===SHOOT_JOB)v.paidId=p.id;}const fromShoot=!!payShoot;payShoot=null;$('dlg-pay').close();commit(true);if(fromShoot&&!$('shoot').hidden)renderShoot();
   const d=world.districts.find(x=>x.job.id===jobId);if(!d)return;const st=d.payStats.get(p.id);
   const made=st?st.n+st.u+st.p:0;
   toast(made?'The City Board put '+money(amt)+' to work in '+d.job.name+': '+builtText(st).replace('Board built ','')+'.'
@@ -1986,8 +2077,8 @@ $('form-pay').addEventListener('submit',e=>{e.preventDefault();const amt=Math.ro
   if(made&&!reduce){celebrate(d);d.party=time+40;}
   if(d.best>=state.goal&&wasBest<state.goal){toast(d.job.name+' just had a '+money(state.goal)+' month. Goal reached.');if(!reduce)celebrate(d);}
   if(d.tierUp)toast('Landmark unlocked in '+d.job.name+': the '+tierName(d.theme,d.tier)+'.');
-  if(d.votes>0)setTimeout(()=>{const x=world.districts.find(q=>q.job.id===jobId);if(x&&!document.querySelector('dialog[open]'))openVote(x);},1400);
-  view=d.job.id;$('btn-isle').textContent='Autopilot Island';renderUI();visit(d);
+  if(d.votes>0&&!fromShoot)setTimeout(()=>{const x=world.districts.find(q=>q.job.id===jobId);if(x&&!document.querySelector('dialog[open]'))openVote(x);},1400);
+  if(fromShoot&&!$('shoot').hidden)return;view=d.job.id;$('btn-isle').textContent='Autopilot Island';renderUI();visit(d);
 });
 let editingFut=null;
 function openFut(id){editingFut=id||null;const b=id&&state.future.find(x=>x.id===id);
@@ -2001,7 +2092,7 @@ $('form-fut').addEventListener('submit',e=>{e.preventDefault();const name=$('fut
   if(b){if(b.stage!==stage)b.since=today();Object.assign(b,{name,stage,what,next});$('dlg-fut').close();commit(false);return;}
   if(state.future.length>=8){err.textContent='The island fits 8. Delete one to add another.';err.hidden=false;return;}
   state.future.push({id:uid(),name,stage,what,next,since:today()});$('dlg-fut').close();commit(false);goFut(true);toast(name+' broke ground on Launchpad Island.');});
-for(const b of document.querySelectorAll('[data-close]'))b.addEventListener('click',()=>{payAfterJob=false;b.closest('dialog').close();});
+for(const b of document.querySelectorAll('[data-close]'))b.addEventListener('click',()=>{payAfterJob=false;payShoot=null;b.closest('dialog').close();});
 $('btn-pay').addEventListener('click',()=>openPay());
 let valPay=null;
 $('form-val').addEventListener('submit',e=>{e.preventDefault();const v=Math.round(parseFloat($('val-amt').value)*100)/100,p=state.payments.find(x=>x.id===valPay);if(!p||!(v>0))return;
@@ -2069,6 +2160,81 @@ $('btn-walk').addEventListener('click',()=>setWalk(!me.on));
 $('btn-isle').addEventListener('click',()=>goIsle(!onIsle()));
 $('btn-lab').addEventListener('click',openIdeas);
 $('btn-trybe').addEventListener('click',openTrybe);
+/* ---------- Shoot Day ---------- */
+const SHOOT_JOB='job-traceugc';let sdTab='film',sdSel=0,payShoot=null;
+const sdCount=()=>state.shoot.videos.filter(v=>v.done).length;
+const sdPending=()=>state.shoot.videos.filter(v=>v.done&&!state.payments.some(p=>p.id===v.paidId));
+function shootFacts(){const sh=state.shoot,pend=sdPending();
+  return'Shoot Day ('+sh.date+'): '+sdCount()+' of '+sh.videos.length+' UGC videos filmed for TRACEUGC. Good day is '+sh.goal+', great day is '+sh.great+'. '+sh.videos.map(v=>v.brand+' "'+v.tag+'" '+(v.done?(state.payments.some(p=>p.id===v.paidId)?'filmed and paid':'filmed, waiting on payout'):'not filmed yet')+', about '+money(v.profit)+' profit').join('; ')+'.'+(pend.length?' Expected but not paid yet: '+money(pend.reduce((t,v)=>t+v.profit,0))+'. That money only counts once it is logged as a payment.':'');}
+function shootCard(){const sh=state.shoot;if(!sh.videos.length)return'';const n=sdCount(),pend=sdPending(),pa=pend.reduce((t,v)=>t+v.profit,0);
+  return'<div class="race"><span class="tag">Shoot Day · '+esc(sh.date===today()?'today':niceDate(sh.date))+'</span><div class="rl"><span><strong>'+n+' of '+sh.videos.length+' filmed</strong></span><b>'+(n>=sh.great?'Great day':n>=sh.goal?'Good day':sh.goal-n+' to a good day')+'</b></div>'
+    +(pa?'<div class="rl"><span>Filmed, waiting on payout</span><b>≈'+money(pa)+'</b></div>':'')
+    +'<div class="acts"><button class="btn small primary" data-act="shoot" type="button">Open Shoot Day</button></div></div>';}
+function openShoot(){closeChat();selected=null;$('info').hidden=true;if(me.on)setWalk(false);
+  const vs=state.shoot.videos,f=vs.findIndex(v=>!v.done);sdSel=f>=0?f:0;$('shoot').hidden=false;sdTab='film';renderShoot();$('sd-body').scrollTop=0;}
+function closeShoot(){$('shoot').hidden=true;$('prompter').hidden=true;renderUI();}
+function renderShoot(){
+  const sh=state.shoot,vs=sh.videos,n=sdCount(),N=vs.length;sdSel=clamp(sdSel,0,Math.max(0,N-1));
+  $('sd-day').textContent=sh.date?new Date(sh.date+'T12:00:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}):'';
+  $('sd-fc').textContent=N?n+'/'+N:'';const left=sh.replies.filter(r=>!r.sent).length;$('sd-rc').textContent=sh.replies.length?(left||'✓'):'';
+  document.querySelectorAll('.sd-tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.sd===sdTab));
+  $('sd-act').hidden=sdTab!=='film'||!N;
+  let h='';
+  if(sh.date&&sh.date<today())h+='<div class="card sd-city"><p><strong>This list is from '+esc(niceDate(sh.date))+'.</strong> Anything left on it still counts. Ask Claude for a fresh shoot list when you want a new one.</p></div>';
+  if(sdTab==='film'){
+    if(!N)h+='<div class="card sd-empty"><h3>No shoot planned.</h3><p class="sd-why">Ask Claude to plan a shoot day from your Trybe and Launch Point brands.</p></div>';
+    else{
+      const pend=sdPending(),pa=pend.reduce((t,v)=>t+v.profit,0),d=world.districts.find(x=>x.job.id===SHOOT_JOB);
+      h+='<p class="sd-goal">Good day = <b>'+sh.goal+' videos</b>. Great day = <b>'+sh.great+'</b>. Tap any video to open it.</p><div class="sd-bar"><i style="width:'+(n/N*100)+'%"></i></div>';
+      if(d)h+='<div class="card sd-city"><p><strong>'+esc(d.job.name)+' district</strong> · '+(pa?'≈'+money(pa)+' filmed and waiting on payout. It builds when the money is logged.':'Each payout you log from here builds the district.')+'</p><button class="btn small" data-sd-act="city" type="button">See the district</button></div>';
+      h+='<ul class="sd-list">'+vs.map((v,i)=>{const paid=v.done&&state.payments.some(p=>p.id===v.paidId);
+        return'<li><button class="sd-row'+(v.done?' done':'')+(i===sdSel?' sel':'')+'" data-sd-i="'+i+'" type="button"'+(i===sdSel?' aria-current="true"':'')+'><span class="n">'+(v.done?'✓':i+1)+'</span><span class="nm">'+esc(v.brand)+'<span class="sub">'+esc(v.tag)+' · '+esc(v.setup)+(paid?' · paid':'')+'</span></span><span class="amt">'+money(v.profit)+'</span></button></li>';}).join('')+'</ul>';
+      if(n===N)h+='<div class="card sd-empty"><h3>All '+N+' filmed.</h3><p class="sd-why">≈'+money(vs.reduce((t,v)=>t+v.profit,0))+' expected profit. Send them to the editor and you\'re done.</p></div>';
+      const v=vs[sdSel];
+      if(v){const paid=state.payments.some(p=>p.id===v.paidId);
+        h+='<section class="card sd-card" id="sd-card" aria-live="polite"><div style="display:flex;flex-direction:column;gap:8px"><div class="sd-rec"><span class="rec-dot" aria-hidden="true"></span>VIDEO '+(sdSel+1)+' OF '+N+(v.done?' · FILMED':'')+'</div>'
+          +'<h3>'+esc(v.brand)+'</h3><div class="sd-chips">'+(v.setup?'<span class="sd-chip">'+esc(v.setup)+'</span>':'')+(v.secs?'<span class="sd-chip">~'+v.secs+'s</span>':'')+'<span class="sd-chip">≈'+money(v.profit)+' profit</span></div>'
+          +(v.why?'<p class="sd-why">'+esc(nt(v.why))+'</p>':'')+'</div>'
+          +'<div><p class="sd-lbl">Say this</p><p class="sd-script">'+esc(v.script)+'</p></div>'
+          +'<div class="acts"><button class="btn" data-sd-act="big" type="button">Big text for filming</button><button class="btn" data-sd-act="copy" type="button">Copy script</button></div>'
+          +(v.shots?'<div><p class="sd-lbl">Shots</p><p class="sd-shots">'+esc(v.shots)+'</p></div>':'')
+          +(v.done?'<div class="sd-paid"><p>'+(paid?'<strong>Paid and logged.</strong> It\'s built into the '+esc(d?d.job.name:'TRACEUGC')+' district.':'<strong>Did '+esc(v.brand)+' pay?</strong> Log it and the board builds with it.')+'</p>'+(paid?'':'<button class="btn small primary" data-sd-act="pay" type="button">Log payout</button>')+'</div>':'')
+          +'</section>';}}
+  }else if(sdTab==='replies'){
+    h+='<p class="sd-goal">Copy, paste into Trybe chat, tap <b>Sent</b>. About 5 minutes.</p>';
+    if(!sh.replies.length)h+='<p class="sd-goal">No replies queued.</p>';
+    h+=sh.replies.map((r,i)=>'<div class="card sd-reply'+(r.sent?' sent':'')+'"><h3>'+(r.sent?'✓ ':'')+esc(r.brand)+'</h3><p>'+esc(nt(r.text))+'</p><div class="acts"><button class="btn small" data-sd-act="rcopy" data-sd-i="'+i+'" type="button">Copy</button><button class="btn small'+(r.sent?'':' primary')+'" data-sd-act="rsent" data-sd-i="'+i+'" type="button">'+(r.sent?'Not sent':'Sent')+'</button></div></div>').join('');
+  }else{
+    if(sh.rules.length)h+='<div class="card sd-note"><h3>Every video</h3><ul>'+sh.rules.map(r=>'<li>'+esc(r)+'</li>').join('')+'</ul></div>';
+    if(sh.ignore)h+='<div class="card sd-note"><h3>Ignore today</h3><p>'+esc(sh.ignore)+'</p></div>';
+    h+='<div class="card sd-note"><h3>How it ties into the city</h3><p>Shoot Day saves with your city, so progress follows you to every device. Filming a video doesn\'t build anything yet. Log the payout when the brand pays and the TRACEUGC district grows from it, same as any other payment.</p></div>';
+  }
+  $('sd-inner').innerHTML=h;
+  const v=vs[sdSel],db=$('sd-done');if(v){db.textContent=v.done?'Undo filmed':'Filmed it ✓';db.classList.toggle('undo',v.done);}
+  $('sd-prev').disabled=sdSel<=0;$('sd-next').disabled=sdSel>=N-1;
+}
+function sdScrollCard(){const c=$('sd-card');if(c)c.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}
+document.querySelectorAll('.sd-tab').forEach(b=>b.addEventListener('click',()=>{sdTab=b.dataset.sd;renderShoot();$('sd-body').scrollTop=0;}));
+$('sd-inner').addEventListener('click',e=>{const row=e.target.closest('.sd-row');if(row){sdSel=+row.dataset.sdI;renderShoot();sdScrollCard();return;}
+  const b=e.target.closest('[data-sd-act]');if(!b)return;const a=b.dataset.sdAct,sh=state.shoot,v=sh.videos[sdSel];
+  if(a==='big'&&v){$('prompter-text').textContent=v.script;$('prompter').hidden=false;$('prompter').scrollTop=0;$('prompter-x').focus();}
+  else if(a==='copy'&&v)copyText(v.script,'Script copied.');
+  else if(a==='rcopy'){const r=sh.replies[+b.dataset.sdI];if(r)copyText(r.text,'Reply copied. Paste it into Trybe chat.');}
+  else if(a==='rsent'){const r=sh.replies[+b.dataset.sdI];if(r){r.sent=!r.sent;saveQuiet();renderShoot();}}
+  else if(a==='pay'&&v){if(!state.jobs.some(j=>j.id===SHOOT_JOB)){toast('Add a TRACEUGC job first, then log the payout.');return;}
+    payShoot=v.id;openPay(SHOOT_JOB);$('pay-amt').value=v.profit||'';$('pay-note').value=v.brand+(v.tag?' - '+v.tag:'');}
+  else if(a==='city'){const d=world.districts.find(x=>x.job.id===SHOOT_JOB);closeShoot();if(d)openDistrict(d);}});
+$('sd-done').addEventListener('click',()=>{const vs=state.shoot.videos,v=vs[sdSel];if(!v)return;v.done=!v.done;saveQuiet();
+  if(v.done){const n=sdCount(),sh=state.shoot;toast(n===vs.length?'All '+n+' filmed. Great day.':n===sh.goal?'That\'s a good day. '+n+' filmed.':'Filmed. ≈'+money(v.profit)+' on the way once '+v.brand+' pays.');
+    const d=world.districts.find(x=>x.job.id===SHOOT_JOB);if(d&&!reduce)d.party=time+8;
+    const nx=vs.findIndex(x=>!x.done);if(nx>-1)sdSel=nx;}
+  renderShoot();$('sd-body').scrollTop=0;});
+$('sd-prev').addEventListener('click',()=>{if(sdSel>0){sdSel--;renderShoot();sdScrollCard();}});
+$('sd-next').addEventListener('click',()=>{if(sdSel<state.shoot.videos.length-1){sdSel++;renderShoot();sdScrollCard();}});
+$('sd-close').addEventListener('click',closeShoot);
+$('prompter-x').addEventListener('click',()=>{$('prompter').hidden=true;});
+$('btn-shoot').addEventListener('click',openShoot);
+
 $('btn-fut').addEventListener('click',()=>goFut(!onFut()));
 // district name signs: 0 = hidden, 1 = small name tags, 2 = full signs with totals
 const NAME_LABEL=['Names: off','Names: small','Names: full'];let nameMode=1;
